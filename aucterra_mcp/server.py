@@ -1,9 +1,9 @@
 import os
 import base64
 import re
-from typing import List, Dict, Any, Union, Type
+from typing import List, Dict, Any, Union, Type, Optional
 import httpx
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, root_validator
 from mcp.server.fastmcp import FastMCP
 
 mcp = FastMCP("aucterra")
@@ -41,19 +41,30 @@ async def prepare_input_data(input_data: str) -> str:
     raise ValueError("Invalid input_data: must be a local path, base64 string, or a valid URL.")
 
 
+# -----------------------------------
+# 🔍 Field Definition (Recursive)
+# -----------------------------------
+class FieldDefinition(BaseModel):
+    field_key: str = Field(..., description="Unique identifier for the field.")
+    field_name: str = Field(..., description="Display name for the field.")
+    field_type: Optional[str] = Field(None, description="Data type of the field, e.g., 'float', 'string'.")
+    format_instruction: Optional[str] = Field(None, description="Instruction to format the extracted value.")
+    fields: Optional[List["FieldDefinition"]] = Field(None, description="Nested fields for structured data.")
+
+
 # -------------------------------
 # 🛠 Document Extraction Tool
 # -------------------------------
 class ExtractionInput(BaseModel):
     input_data: str = Field(..., description="Document to extract from. Accepts a local file path, URL, or base64 string.")
-    fields: List[Dict[str, Any]] = Field(..., description="List of field definitions to extract. Can be nested.")
+    fields: List[FieldDefinition] = Field(..., description="List of field definitions to extract. Can be nested.")
     document_id: str = Field("123", description="Unique identifier for the document.")
     extraction_type: str = Field("generic", description="Extraction type: 'generic' or 'specific'.")
 
 @mcp.tool()
 async def document_extraction_tool(
     input_data: str,
-    fields: List[Dict[str, Any]],
+    fields: List[FieldDefinition],
     document_id: str = "123",
     extraction_type: str = "generic"
 ) -> Union[Dict[str, Any], str]:
@@ -69,7 +80,7 @@ async def document_extraction_tool(
 
     payload = {
         "input_data": input_data,
-        "fields": fields,
+        "fields": [field.dict() for field in fields],
         "document_id": document_id,
         "extraction_type": extraction_type,
         "advanced_ocr": "disable"
