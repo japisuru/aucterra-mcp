@@ -4,7 +4,6 @@ This repository configures an MCP-compatible server for Aucterra's Document Unde
 
 It enables LLM agents to interact with Aucterra's document classification, extraction, etc. services using [Google's Agent Development Kit (ADK)](https://github.com/google/agent-development-kit).
 
----
 
 ## 🔧 Configuration
 
@@ -35,7 +34,7 @@ Include this block in your `mcpServers` configuration (e.g., `config.json` or `m
 |-------------------|----------------------------------------------------|
 | `AUCTERRA_API_KEY` | Your API key for accessing Aucterra's services     |
 
----
+
 
 ## ⚙️ Tool Behavior
 
@@ -46,7 +45,7 @@ This MCP tool provides structured access to Aucterra's:
 
 The tool accepts `pdf` or `image` files and returns structured JSON output.
 
----
+
 
 ## ✅ Agent Integration (Google ADK)
 
@@ -71,7 +70,7 @@ aucterra_tool = MCPToolset(
 
 Add this tool to your agent via `tools=[aucterra_tool]`.
 
----
+
 
 ## 📚 Example Use Cases
 
@@ -83,7 +82,7 @@ User: Extract Tax ID as 'Tax Identification Number' from this document (/path/to
 
 The agent will use the Aucterra MCP server to extract fields, filling in missing values (e.g., using the same value for `field_key` and `field_name` if only one is provided).
 
----
+
 
 ## 📦 Dependencies
 
@@ -95,7 +94,7 @@ python3 -m pip install --user pipx
 python3 -m pipx ensurepath
 ```
 
----
+
 
 ## 🛠️ Issues
 
@@ -105,7 +104,7 @@ If you encounter issues, ensure your API key is correct and the tool is up to da
 pipx upgrade aucterra-mcp
 ```
 
----
+
 
 ## 🔗 Related Projects
 
