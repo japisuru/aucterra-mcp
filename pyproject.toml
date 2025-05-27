@@ -9,4 +9,4 @@ dependencies = [
 ]
 
 [project.scripts]
-aucterra-mcp = "aucterra-mcp.main:main"
+aucterra-mcp = "aucterra_mcp.main:main"
