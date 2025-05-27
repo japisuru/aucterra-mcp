@@ -1,7 +1,3 @@
-### 📄 README.txt
-
----
-
 # Aucterra MCP Server
 
 This repository configures an MCP-compatible server for Aucterra's Document Understanding APIs using the [aucterra-mcp](https://github.com/japisuru/aucterra-mcp) package.
