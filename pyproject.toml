@@ -1,0 +1,12 @@
+[project]
+name = "aucterra-mcp"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "mcp[cli]>=1.9.1",
+]
+
+[project.scripts]
+aucterra-mcp = "aucterra-mcp.main:main"
